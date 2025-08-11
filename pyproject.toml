@@ -9,7 +9,7 @@ package-mode = false
 
   
 [tool.poetry.dependencies]
-python = ">=3.9,<4"
+python = ">=3.9,<3.9.7 || >3.9.7,<4"
 streamlit = ">=1.48.0,<2.0.0"
 requests = ">=2.32.4,<3.0.0"
 beautifulsoup4 = ">=4.13.4,<5.0.0"
