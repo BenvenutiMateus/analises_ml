@@ -114,7 +114,20 @@ def gerar_pdf_bytes(produtos, cliente, incluir_links=True):
     c = canvas.Canvas(buffer, pagesize=A4)
     largura, altura = A4
     margem = 2*cm
-
+    try:
+        logo_path = "webvend_logo.png"
+        logo_img = PilImage.open(logo_path)
+        logo_width = 5 * cm
+        logo_height = (logo_img.height / logo_img.width) * logo_width
+        logo_img = logo_img.resize((int(logo_width), int(logo_height)))
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmp_logo:
+            logo_img.save(tmp_logo.name)
+            temp_logo_path = tmp_logo.name
+        c.drawImage(temp_logo_path, largura - margem - logo_width, altura - logo_height - 1.5*cm,
+                    width=logo_width, height=logo_height, mask='auto')
+        os.remove(temp_logo_path)
+    except Exception as e:
+        print("Erro ao carregar logo na capa:", e)
     c.setFont("Helvetica-Bold", 24)
     c.setFillColorRGB(1, 0.7, 0)
     c.drawString(margem, altura - 5 * cm, "Análise de Produtos")
@@ -131,6 +144,19 @@ def gerar_pdf_bytes(produtos, cliente, incluir_links=True):
         c.setFont("Helvetica-Bold", 12)
         c.setFillColorRGB(0,0,0)
         c.drawString(margem, altura - 1.5 * cm, "Webvend | Análise de Produto")
+        try:
+            logo_img = PilImage.open("webvend_logo.png")
+            w = 3.5 * cm
+            h = (logo_img.height / logo_img.width) * w
+            logo_img = logo_img.resize((int(w), int(h)))
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmp_logo:
+                logo_img.save(tmp_logo.name)
+                temp_logo_path = tmp_logo.name
+            c.drawImage(temp_logo_path, largura - margem - w, altura - 1.5 * cm - h / 2,
+                        width=w, height=h, mask='auto')
+            os.remove(temp_logo_path)
+        except Exception as e:
+            print("Erro ao desenhar logo em página:", e)
         c.setStrokeColorRGB(0.5, 0.5, 0.5)
         c.setLineWidth(0.5)
         c.line(margem, altura - 1.8 * cm, largura - margem, altura - 1.8 * cm)
