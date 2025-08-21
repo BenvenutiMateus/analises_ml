@@ -26,7 +26,7 @@ def extrair_dados_anuncio(url, aliquota=0, comissao_webvend=0):
 }
     try:
         response = requests.get(url, headers=headers)
-        st.code(response.text[:2000], language="html")
+        st.code(response.text, language="html")
     except Exception as e:
         return None, f"Erro ao acessar o link: {e}"
 
