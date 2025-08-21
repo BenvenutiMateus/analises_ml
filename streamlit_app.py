@@ -23,16 +23,16 @@ def extrair_dados_anuncio(url, aliquota=0, comissao_webvend=0):
     soup = BeautifulSoup(response.text, 'html.parser')
 
     # Título do produto
-    titulo_tag = soup.find('h1', {'class': 'ui-pdp-title'})
-    titulo = titulo_tag.text.strip() if titulo_tag else 'Título não encontrado'
+    titulo_tag = soup.find('h1', class_='ui-pdp-title')
+    titulo = titulo_tag.get_text(strip=True) if titulo_tag else "Título não encontrado"
 
     # Foto principal (URL)
     foto_tag = soup.select_one('figure.ui-pdp-gallery__figure img')
     url_foto = foto_tag['src'] if foto_tag and foto_tag.has_attr('src') else None
 
     # Preço
-    preco_inteiro_tag = soup.select_one('.ui-pdp-price__second-line .andes-money-amount__fraction')
-    preco_centavos_tag = soup.select_one('.ui-pdp-price__second-line .andes-money-amount__cents')
+    preco_inteiro_tag = soup.find('span', class_='andes-money-amount__fraction')
+    preco_centavos_tag = soup.find('span', class_='andes-money-amount__cents')
 
     if preco_inteiro_tag:
         inteiro = preco_inteiro_tag.text.strip().replace('.', '')
