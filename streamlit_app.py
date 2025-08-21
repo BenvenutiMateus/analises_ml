@@ -9,6 +9,13 @@ from PIL import Image as PilImage
 import tempfile
 import os
 
+
+def make_soup(html):
+    try:
+        return BeautifulSoup(html, "lxml")
+    except Exception:
+        return BeautifulSoup(html, "html.parser")
+
 # Função que extrai dados do anúncio Mercado Livre
 def extrair_dados_anuncio(url, aliquota=0, comissao_webvend=0):
     headers = {
@@ -28,7 +35,7 @@ def extrair_dados_anuncio(url, aliquota=0, comissao_webvend=0):
     if response.status_code != 200:
         return None, "Erro ao acessar o link."
 
-    soup = BeautifulSoup(response.text, 'lxml')
+    soup = make_soup(response.text)
 
     # Título do produto
     titulo_tag = soup.find('h1', class_='ui-pdp-title')
