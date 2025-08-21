@@ -330,15 +330,14 @@ st.title("Analisador Mercado Livre - Multi Produtos")
 
 cliente = st.text_input("Nome do Cliente:", key="input_cliente")
 
-col1, col2 = st.columns([3, 1])
-with col1:
-    st.text_input("Link do produto Mercado Livre:", key="input_link")
-with col2:
-    st.button("Adicionar Produto", on_click=lambda: [adicionar_produto(), limpar_campos()])
+
+st.text_input("Link do produto Mercado Livre:", key="input_link")
+
 
 st.text_input("Alíquota do imposto (%) (ex: 12.5):", key="input_aliquota", max_chars=6)
 st.text_input("Comissão Webvend (%) (ex: 10):", key="input_comissao", max_chars=6)
 st.text_area("Observação:", key="input_observacao", height=3)
+st.button("Adicionar Produto", on_click=lambda: [adicionar_produto(), limpar_campos()])
 
 if st.session_state.produtos:
     st.subheader("Produtos adicionados:")
