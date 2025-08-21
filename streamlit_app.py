@@ -11,16 +11,24 @@ import os
 
 # Função que extrai dados do anúncio Mercado Livre
 def extrair_dados_anuncio(url, aliquota=0, comissao_webvend=0):
-    headers = {"User-Agent": "Mozilla/5.0"}
+    headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/115.0.0.0 Safari/537.36",
+    "Accept-Language": "pt-BR,pt;q=0.9,en;q=0.8",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive"
+}
     try:
         response = requests.get(url, headers=headers)
+        st.code(response.text[:2000], language="html")
     except Exception as e:
         return None, f"Erro ao acessar o link: {e}"
 
     if response.status_code != 200:
         return None, "Erro ao acessar o link."
 
-    soup = BeautifulSoup(response.text, 'html.parser')
+    soup = BeautifulSoup(response.text, 'lxml')
 
     # Título do produto
     titulo_tag = soup.find('h1', class_='ui-pdp-title')
