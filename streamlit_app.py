@@ -21,7 +21,7 @@ def extrair_dados_anuncio(url, aliquota=0, comissao_webvend=0):
     headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) ",
     "Accept-Language": "pt-BR,pt;q=0.9,en;q=0.8",
-    "Accept-Encoding": "gzip, deflate, br",
+    "Accept-Encoding": "gzip, deflate",
     "Connection": "keep-alive"
 }
     try:
